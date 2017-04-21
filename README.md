@@ -4,12 +4,15 @@ aacraid_zabbix.pl - script for get any parameters from the Adaptec RAID  for Zab
 Using:
 
 *Discovery HD
+
 aacraid_zabbix.pl none discovery
 
 *Collecting
+
 aacraid_zabbix.pl none collect
 
 *Getting states
+
 aacraid_zabbix.pl [device] [parameter] [type of output]
 
 device - device_X   as device_1 (Hard Drive information) or ad (Adapter information) or ld ( Logical device information)
