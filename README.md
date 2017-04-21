@@ -1,9 +1,9 @@
 # Zabbix-HW-Raid
-arcconf_zabbix.pl - script for geting any parameters from the adaptec raid card for Zabbix
+aacraid_zabbix.pl - script for geting any parameters from the adaptec raid card for Zabbix
 
 Using:
 
-arcconf_zabbix.pl [device] [parametr] [type of output]
+aacraid_zabbix.pl [device] [parametr] [type of output]
 
 device - device_X  like device_1
 
