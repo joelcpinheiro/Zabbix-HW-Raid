@@ -8,24 +8,19 @@ $metric =~ s/_/ /g;
 
 sub ad_ld {
 	$arg = @_[0];
-	#print "~~~ " . $arg." ~~~\n";
-	open(FILE,"/tmp/accraid_" . $arg) || die 'Cant open';
+	open(FILE,"/tmp/aacraid_" . $arg) || die "Can't open file";
 	while (<FILE>) {
 		@line = split(':', $_);
     	@line[0] =~ s/^\s+|\s+$//g;
-    	@line[0] =~ s/\n//g;
-		@line[0] = lc @line[0];
     	@line[1] =~ s/^\s+|\s+$//g;
-    	@line[1] =~ s/\n//g;
-		@linr[1] = lc @line[1];
-    	$hash{@line[0]} = @line[1];
+    	$hash{lc @line[0]} = lc @line[1];
     }
+    print Dumper %hash;
     return %hash;
 }
 
 sub pd_all {
-	#print "~~~ pd ~~~\n";
-	open(FILE,"/tmp/accraid_pd" ) || die 'Cant open';
+	open(FILE,"/tmp/accraid_pd" ) || die "Can't openfile";
 	@file = 'start';
 	while (<FILE>) {
 		$count++;
@@ -33,39 +28,30 @@ sub pd_all {
 		$_ =~ s/\h+/ /g;
 		@file = (@file,$_);
 		if ( $_  =~ /^Device #/){
-			  #  позиция файле откуда начинается следующий диск
-              #print "~~~~~~~count: ".$count." ~~~~~~~~~\n";
+			  #  позиция в файле откуда начинается следующий диск
               @chank = (@chank,$count);
 		}
 		for $index (0..$#chank){
 			#print $index." ".$chank[$index]."\n";
         	@file[$chank[$index]] = lc @file[$chank[$index]];
 			$dev{@file[$chank[$index]]}{'self'} = 	@file[$chank[$index]];
-			#print "chank[index] : ". $chank[$index] . " " . $chank[$index+1]."\n";
 			$start =  $chank[$index]; $stop = ($chank[$index+1]-1);
-			#print "start stop :" .$start.  " " . $stop."\n";
 			for $i ($start..$stop){
-				#print $i . " => ";
-				#print @file[$i]."\n";
-				@f = split (':',@file[$i]);
-				@f[0] =~ s/^\s+|\s+$//g;
-				@f[0] = lc @f[0];
+				#print $i . " => ". @file[$i]."\n";
+				@f = split (':',lc @file[$i]);
 				@f[1] =~ s/^\s+|\s+$//g;
-				@f[1] = lc @f[1];
-				$dev{@file[$chank[$index]]}{@f[0]} = @f[1];
+				$dev{lc @file[$chank[$index]]}{@f[0]} = @f[1];
 			}
-	    	$i = 0;
 		}
 	}
 	#print Dumper \%dev;
 	return %dev;
 }
 
-
 sub pd {
 	$device = @_[0];
 	$device =~ s/_/ #/g;
-	open(FILE,"/tmp/accraid_pd" ) || die 'Cant open';
+	open(FILE,"/tmp/aacraid_pd" ) || die 'Cant open';
 	@file = 'start';
 	while (<FILE>) {
 		$count++;
@@ -79,14 +65,11 @@ sub pd {
 			$dev{lc @file[$chank[$index]]}{'self'} = lc @file[$chank[$index]];
 			$start = @chank[0]; $stop = $count - 1;
 			for $i ($start .. $stop){
-				@f = split (':',@file[$i]);
-				@f[0] =~ s/^\s+|\s+$//g;
-				@f[0] = lc @f[0];
+				@f = split (' :',lc @file[$i]);
 				@f[1] =~ s/^\s+|\s+$//g;
-				@f[1] = lc @f[1];
 				$dev{lc @file[$chank[$index]]}{@f[0]} = @f[1];
 			}
-			#print Dumper \%dev;
+			print Dumper \%dev;
 			return %dev;
 		}
 	}
@@ -94,7 +77,7 @@ sub pd {
 
 sub collect {
 	for $i ('ad','ld','pd'){
-		$status = system("sudo /usr/sbin/arcconf GETCONFIG 1 $i > /tmp/accraid_$i");
+		$status = system("sudo /usr/sbin/arcconf GETCONFIG 1 $i > /tmp/aacraid_$i");
 		if ($status != 0){
 			print "1\n";
 			exit;
@@ -122,7 +105,7 @@ sub discovery {
 sub status {
 	$arg = lc @_[0];
     %status = (
-  		'online' 	=> 0
+  		 'online' 	=> 0
 		,'optimal'	=> 0
   		,'zmm optimal' 	=> 0
   		,'on' 		=> 0
