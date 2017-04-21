@@ -15,12 +15,12 @@ sub ad_ld {
     	@line[1] =~ s/^\s+|\s+$//g;
     	$hash{lc @line[0]} = lc @line[1];
     }
-    print Dumper %hash;
+    #print Dumper %hash;
     return %hash;
 }
 
 sub pd_all {
-	open(FILE,"/tmp/accraid_pd" ) || die "Can't openfile";
+	open(FILE,"/tmp/accraid_pd" ) || die "Can't open file";
 	@file = 'start';
 	while (<FILE>) {
 		$count++;
@@ -69,7 +69,7 @@ sub pd {
 				@f[1] =~ s/^\s+|\s+$//g;
 				$dev{lc @file[$chank[$index]]}{@f[0]} = @f[1];
 			}
-			print Dumper \%dev;
+			#print Dumper \%dev;
 			return %dev;
 		}
 	}
