@@ -111,6 +111,7 @@ sub status {
   		,'on' 		=> 0
   		,'normal' 	=> 0
   		,'enabled' 	=> 0
+		,'ready'        => 0
   		,'enabled (write-back)' => 0
   		,'rebuilding' => 3
   		,'global hot-spare' => 2
