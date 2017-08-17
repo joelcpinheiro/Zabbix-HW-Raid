@@ -11,12 +11,12 @@ sub ad_ld {
 	open(FILE,"/tmp/aacraid_" . $arg) || die "Can't open file";
 	while (<FILE>) {
 		@line = split(':', $_);
-    	@line[0] =~ s/^\s+|\s+$//g;
-    	@line[1] =~ s/^\s+|\s+$//g;
-    	$hash{lc @line[0]} = lc @line[1];
-    }
-    #print Dumper %hash;
-    return %hash;
+    		@line[0] =~ s/^\s+|\s+$//g;
+    		@line[1] =~ s/^\s+|\s+$//g;
+    		$hash{lc @line[0]} = lc @line[1];
+    	}
+    	#print Dumper %hash;
+    	return %hash;
 }
 
 sub pd_all {
@@ -28,12 +28,12 @@ sub pd_all {
 		$_ =~ s/\h+/ /g;
 		@file = (@file,$_);
 		if ( $_  =~ /^Device #/){
-			  #  позиция в файле откуда начинается следующий диск
-              @chank = (@chank,$count);
+			#  позиция в файле откуда начинается следующий диск
+              		@chank = (@chank,$count);
 		}
 		for $index (0..$#chank){
 			#print $index." ".$chank[$index]."\n";
-        	@file[$chank[$index]] = lc @file[$chank[$index]];
+        		@file[$chank[$index]] = lc @file[$chank[$index]];
 			$dev{@file[$chank[$index]]}{'self'} = 	@file[$chank[$index]];
 			$start =  $chank[$index]; $stop = ($chank[$index+1]-1);
 			for $i ($start..$stop){
@@ -59,7 +59,7 @@ sub pd {
 		$_ =~ s/\h+/ /g;
 		@file = (@file,$_);
 		if ( (lc $_)  =~ /^$device/){
-              @chank = (@chank,$count);
+              		@chank = (@chank,$count);
 		}
 		if ( (lc $_)  =~ /^device #/ && $#chank == 0 && $count > @chank[0]){
 			$dev{lc @file[$chank[$index]]}{'self'} = lc @file[$chank[$index]];
@@ -104,7 +104,7 @@ sub discovery {
 
 sub status {
 	$arg = lc @_[0];
-    %status = (
+    	%status = (
   		 'online' 	=> 0
 		,'optimal'	=> 0
   		,'zmm optimal' 	=> 0
@@ -162,5 +162,3 @@ if ($device =~ /ad/) {
 	 	print status($data{$metric})."\n";
 	}
 }
-
-
