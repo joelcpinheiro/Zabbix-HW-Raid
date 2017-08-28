@@ -61,7 +61,7 @@ sub pd {
 		if ( (lc $_)  =~ /^$device/){
               		@chank = (@chank,$count);
 		}
-		if ( (lc $_)  =~ /^device #/ && $#chank == 0 && $count > @chank[0]){
+		if ( ((lc $_)  =~/^device #/ or (lc $_) =~ /^command/) && $#chank == 0 && $count > @chank[0]){
 			$dev{lc @file[$chank[$index]]}{'self'} = lc @file[$chank[$index]];
 			$start = @chank[0]; $stop = $count - 1;
 			for $i ($start .. $stop){
