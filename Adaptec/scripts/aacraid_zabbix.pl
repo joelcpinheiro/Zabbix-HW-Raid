@@ -20,7 +20,7 @@ sub ad_ld {
 }
 
 sub pd_all {
-	open(FILE,"/tmp/accraid_pd" ) || die "Can't open file";
+	open(FILE,"/tmp/aacraid_pd" ) || die "Can't open file";
 	@file = 'start';
 	while (<FILE>) {
 		$count++;
